@@ -1,0 +1,111 @@
+#include <stdio.h>
+
+struct poly
+{
+  int coef,exp;
+}term1[50];
+
+int compare(int a, int b)
+{
+  if(a==b)
+    return 1;
+  else if(a<b)
+    return 2;
+  else
+    return 3;
+}
+
+void newterm(int a, int b, int c)
+{
+  if(free>=50)
+    printf("Too many terms in the polynomial.\n\nCANNOT Execute\n");
+  else
+  {
+    term1[free].coef=a;
+    term1[free].exp=b;
+    printf("%ix^%i+",term1[free].coef,term1[free].exp);
+    free++;
+  }
+}
+
+void polyadd(int af, int al, int bf, int bl, int cf)
+{
+  int p,q,s,free;
+  p=af;
+  q=bf;
+  free=cf;
+  while((p<=al)&&(q<=bl))
+  {
+    switch(compare(term[p].exp,term[q].exp))
+    {
+      case 1: s=term[p].coef+term[q].coef;
+              if(s!=0)
+                newterm(s,term1[p].exp,free);
+              p++;q++;
+              break;
+      
+      case 2: newterm(term1[q].coef,term1[q].exp,free);
+              q++;
+              break;
+
+      case 3: newterm(term1[p].coef,term1[p].exp,free);
+              p++;
+              break;
+     }
+  }
+  if(p<=al)
+  {
+    newterm(term1[p].coef,term1[p].exp,free);
+    p++;
+  }
+  if(q<=al)
+  {
+    newterm(term1[q].coef,term1[q].exp,free);
+    q++;
+  }
+}
+
+void main()
+{
+  int m,n,s,t,x,y,i,free;
+  printf("Enter the Number of terms of polynomial 1:\n");
+  scanf("%i",&m);
+  printf("Enter the Number of terms of polynomial 2:\n");
+  scanf("%i",&n);
+  printf("Enter the Elements of polynomial 1:\n");
+  for(x=0;x<m;x++)
+  {
+    printf("Enter Coefficient %i\n",(x+1));
+    scanf("%d",&term1[x].coef);
+    printf("Enter corresponding Exponent\n");
+    scanf("%d",&term1[x].exp);    
+  }
+  for(y=x;y<m+n;y++)
+  {
+    printf("Enter Coefficient %i\n",(x+1));
+    scanf("%d",&term1[y].coef);
+    printf("Enter corresponding Exponent\n");
+    scanf("%d",&term1[y].exp);    
+  }
+  printf("Polynomial 1 is\n");
+  for(x=0;x<m;x++)
+  {
+    if(x!=m-1)
+    printf("%ix^%i+",term1[x].coef,term1[x].exp);
+    else
+    printf("%ix^%i",term1[x].coef,term1[x].exp);
+  }
+  printf("Polynomial 2 is\n");
+  for(y=x;y<m+n;y++)
+  {
+    if(y!=m+n-1)
+    printf("%ix^%i+",term1[y].coef,term1[y].exp);
+    else
+    printf("%ix^%i",term1[y].coef,term1[y].exp);
+  }
+  printf("\n");
+  x=0;
+  printf("Resultant Polynomial is :\n");
+  polyadd(x,m-1,m,m+n-1);
+  printf("\b\n")
+}
