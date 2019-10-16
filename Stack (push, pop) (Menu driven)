@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+	int stack[10],ch,item,n,i,j,top=-1;
+	printf("Enter stack size: ");
+	scanf("%d",&n);
+	do
+	{
+		printf("\nChoose an option:\n1.Push elements\n2.Pop element\n3.Exit\n");
+		scanf("%d",&ch);
+		if(ch==1)
+		{
+			printf("Enter elements to add: ");
+			scanf("%d",&item);
+			if(top==n-1)
+			{
+			printf("Stack full\n");
+			}
+			else
+			{
+				top++;
+ 				stack[top]=item;
+			}
+			printf("\n Elements of the stack: \n");
+			for(j=0;j<=top;j++)
+			{
+ 				printf("%d",stack[j]);
+			}
+		}
+		else if(ch==2)
+		{
+ 			if(top==-1)
+        	{
+ 	 			printf("Stack empty\n");
+ 			}
+			else
+			{
+ 				item=stack[top];
+				top--;
+			}
+			printf("\nElements of the stack:\n");
+			for(j=0;j<=top;j++)
+			{
+			 	printf("%d",stack[j]);
+			}
+			printf("\n");
+		}
+		else if(ch==3)
+ 		exit(0);
+	}while(ch!=3);
+	return 0;
+}
