@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 20
+int push(int stack[MAX],int sno,int top[],int limit[],int data)
+{
+	if(top[sno]==limit[sno])
+		printf("\nStack is full\n");
+	else
+	{
+		top[sno]++;
+		stack[top[sno]]=data;
+	}
+}
+
+int pop(int stack[MAX],int sno,int top[],int bott[],int data)
+{
+	if(top[sno]==bott[sno])
+		printf("\nStack is empty\n");
+	else
+	{
+		data=stack[top[sno]];
+		top[sno]--;
+	}
+}
+
+void display(int stack[MAX],int sno,int top[],int bott[],int n)
+{
+	int i,j=0;
+	while(j<n)
+	{
+	printf("Elements of stack %i\n",j+1);
+	for(i=bott[j]+1;i<=top[j];i++)
+	{
+		printf("%i\t",stack[i]);
+	}
+	j++;
+	printf("\n");
+	}
+}
+
+void main()
+{
+	int stack[MAX],data,n,sno,ch,i,size;
+	int top[10],bott[10],limit[10];
+	printf("\nNumber of stacks: ");
+	scanf("%d",&n);
+	size=MAX/n;
+	bott[0]=-1;
+	for(i=1;i<n;i++)
+		bott[i]=bott[i-1]+size;
+	for(i=0;i<n-1;i++)
+		limit[i]=bott[i]+size;
+	for(i=0;i<n;i++)
+		top[i]=bott[i];
+	while(1)
+	{
+		printf("\n1.Push Element to the stack\n2.Pop element from the stack\n  Press any other key to exit\n");
+		printf("Enter the choice: \n");
+		scanf("%i",&ch);
+		switch(ch)
+		{
+			case 1:	if(n!=1)
+					{
+						printf("Enter the stack no. from 1 to %i: \n",n);
+						scanf("%i",&sno);
+					}					
+					else 
+						sno=1;
+					if(sno>n)
+					{
+						printf("Value entered doesn't lie in the given range.\n\nExiting...\n");
+					exit(0);
+					}
+					printf("Enter the element to add\n");
+					scanf("%i",&data);
+					push(stack,(sno-1),top,limit,data);
+					display(stack,(sno-1),top,bott,n);
+					break;
+			case 2:	if(n!=1)
+					{
+						printf("Enter the stack no. from 1 to %i: \n",n);
+						scanf("%i",&sno);
+					}
+					else
+						sno=1;
+					pop(stack,(sno-1),top,bott,data);
+					display(stack,(sno-1),top,bott,n);
+					break;
+			default:	exit(0);
+		}
+	}
+}
