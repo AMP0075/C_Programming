@@ -1,0 +1,66 @@
+#include <stdio.h>
+int n, c[50],rear=0,front=0;int i;
+void display()
+{
+	printf("Queue is :\n");
+	i = front+1;
+	while(i<=rear)
+	{
+		if(i==0)
+		   i++;
+		printf("%d\t",c[i]);
+		i++;
+	}
+	printf("\n");
+}
+void push(int item)
+{
+	rear=(rear+1)%n;
+	if(front==rear)
+   	{
+		printf("Circular Queue is Full\n");
+		rear=n-1;
+	}
+	else
+	  c[rear]=item;
+	display();
+}
+void pop()
+{
+	int item;
+	if(front==rear)
+	   printf("Circular Queue is empty\n");
+	else
+	{
+		front=(front+1)%n;
+		item=c[front];
+		printf("The deleted element is %d\n",item);
+	}
+	display();
+}
+int main()
+{
+	int ch=1,item;
+	printf("Enter the size of the Circular Queue\n");
+	scanf("%d",&n);
+	while(ch!= 0)
+	{
+		printf("\nChoose an option:\n1.Push elements\n2.Pop element\n3.Display\n Enter any other key to Exit.\n");
+		scanf("%d",&ch);
+		if(ch == 1)
+		{
+			printf("Enter elements to add: ");
+			scanf("%d",&item);
+			push(item);
+		}
+		else if(ch == 2)
+		{
+			pop();
+		}
+		else if(ch==3)
+			display();
+		else	
+			break;
+	}
+	return 0;	
+}
