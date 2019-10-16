@@ -1,0 +1,199 @@
+#include<stdio.h>
+void sparsemat(int m[][10],int tu[][3],int r,int c)
+{
+	int k,l,t,n;
+	tu[0][0]=r;
+	tu[0][1]=c;
+	t=0;
+	n=1;
+	for(k=0;k<r;k++)
+	{
+		for(l=0;l<c;l++)
+		{
+			if(m[k][l]!=0)
+			{ tu[n][0]=k;
+			  tu[n][1]=l;
+			  tu[n][2]=m[k][l];
+			  t++;
+			  n++;
+			}
+		}
+	}
+	tu[0][2]=t;
+}
+
+void transpose(int sp[][3],int trans[][3])
+{
+	int i,j,k=1;
+	trans[0][0]=sp[0][1];
+	trans[0][1]=sp[0][0];
+	trans[0][2]=sp[0][2];
+	for(i=0;i<sp[0][1];i++)
+	{
+		for(j=1;j<=sp[0][2];j++)
+		{
+			if(sp[j][1]==i)
+			{
+				trans[k][0]=sp[j][1];
+				trans[k][1]=sp[j][0];
+				trans[k][2]=sp[j][2];
+				k++;
+			}
+		}
+	}
+}
+
+void add(int a[][3],int b[][3],int c[][3])
+{
+	if((a[0][0]==b[0][0])&&(a[0][1]==b[0][1]))
+	{
+		int i=1,j=1,k=1,s;
+		c[0][0]=a[0][0];
+		c[0][1]=a[0][1];
+		while((i<=a[0][2])&&(j<=b[0][2]))
+		{
+			if(a[i][0]<b[j][0])
+			{	c[k][0]=a[i][0];
+				c[k][1]=a[i][1];
+				c[k][2]=a[i][2];
+				k++;
+				i++;
+			}
+			else if(b[j][0]<a[i][0])
+			{
+				c[k][0]=b[j][0];
+				c[k][1]=b[j][1];
+				c[k][2]=b[j][2];
+				k++;
+				j++;
+			}
+			else if(a[i][1]<b[j][1])
+			{
+				c[k][0]=a[i][0];
+				c[k][1]=a[i][1];
+				c[k][2]=a[i][2];
+				k++;
+				i++;
+			}
+			else if(b[j][1]<a[i][1])
+			{
+				c[k][0]=b[j][0];
+				c[k][1]=b[j][1];
+				c[k][2]=b[j][2];
+				k++;
+				j++;
+			}
+			else
+			{
+				s=a[i][2]+b[j][2];
+				if(s!=0)
+				{
+					c[k][0]=a[i][0];
+					c[k][1]=a[i][1];
+					c[k][2]=s;
+					k++;
+				}
+				i++;
+				j++;
+			}
+		}
+		while(i<=a[0][2])
+		{
+			c[k][0]=a[i][0];
+			c[k][1]=a[i][1];
+			c[k][2]=a[i][2];
+			k++;
+			i++;
+		}
+		while(j<=b[0][2])
+		{
+			c[k][0]=b[j][0];
+			c[k][1]=b[j][1];
+			c[k][2]=b[j][2];
+			k++;
+			j++;
+		}
+		c[0][2]=k-1;
+	}
+	else
+		{printf("Matrices not compatible for addition\n");}
+}
+				
+
+
+
+
+main()
+{
+	int mat1[10][10],mat2[10][10],r1,c1,r2,c2,i,j,tup1[10][3],tup2[10][3],trans1[10][3],trans2[10][3],res[15][3];
+	printf("Enter the size of the first matrix\n");
+	scanf("%i%i",&r1,&c1);
+	printf("Enter the elements of first matrix\n");
+	for(i=0;i<r1;i++)
+	{
+		for(j=0;j<c1;j++)
+		{
+			scanf("%i",&mat1[i][j]);
+		}
+	}
+	printf("Enter the dimension of the second matrix\n");
+	scanf("%i%i",&r2,&c2);
+	printf("Enter the elements of the second matrix\n");
+	for(i=0;i<r2;i++)
+	{
+		for(j=0;j<c2;j++)
+		{
+			scanf("%i",&mat2[i][j]);
+		}
+	}
+	printf("The first matrix in tuple form is\n");
+	sparsemat(mat1,tup1,r1,c1);
+	for(i=0;i<=tup1[0][2];i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			printf("%i\t",tup1[i][j]);
+		}
+		printf("\n");
+	}
+	printf("The second matrix in tuple form\n");
+	sparsemat(mat2,tup2,r2,c2);
+	for(i=0;i<=tup2[0][2];i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			printf("%i\t",tup2[i][j]);
+		}
+		printf("\n");
+	}
+	printf("The first transpose matrix in tuple form is\n");
+	transpose(tup1,trans1);
+	for(i=0;i<=trans1[0][2];i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			printf("%i\t",trans1[i][j]);
+		}
+		printf("\n");
+	}
+	printf("The second transpose matrix in tuple form is\n");
+	transpose(tup2,trans2);
+	for(i=0;i<=trans2[0][2];i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			printf("%i\t",trans2[i][j]);
+		}
+		printf("\n");
+	}
+	printf("The sum of the two matrices in tuple form\n");
+	add(tup1,tup2,res);
+	for(i=0;i<=res[0][2];i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			printf("%i\t",res[i][j]);
+		}
+		printf("\n");
+	}
+}
